@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body and background */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FFB6C1, #F5A7B8);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow: hidden;
+            transition: background 1s ease-in-out;
+        }
+
+        /* Common button styles */
+        button {
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            color: #333;
+        }
+
+        button:hover {
+            background-color: #f4f4f4;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .centered {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* 404 Error Screen */
+        .error-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+            opacity: 1;
+            transition: opacity 1s ease;
+        }
+
+        /* Valentine's invitation */
+        .invitation-screen {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+        }
+
+        /* Hidden by default */
+        .hidden {
+            display: none;
+        }
+
+        .message {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .confetti {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: none;
+        }
+
+        .confetti span {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: #FF6F61;
+            border-radius: 50%;
+            animation: fall 1s infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100px); }
+            100% { transform: translateY(100vh); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Confetti Container -->
+    <div id="confetti" class="confetti"></div>
+
+    <!-- 404 Error Screen -->
+    <div id="errorScreen" class="error-screen centered">
+        <div class="message">Hola, ¿Te puedo hacer una pregunta?</div>
+        <button id="refreshButton">Está bien!</button>
+        <button id="noButton">No quiero</button>
+    </div>
+
+    <!-- Valentine's Invitation -->
+    <div id="invitationScreen" class="invitation-screen centered">
+        <div class="message">¿Quiéres pasar este 14 conmigo?</div>
+        <button id="yesButton">SI</button>
+        <button id="noButton2">NO</button>
+    </div>
+
+    <script>
+        // Variables
+        const errorScreen = document.getElementById('errorScreen');
+        const invitationScreen = document.getElementById('invitationScreen');
+        const refreshButton = document.getElementById('refreshButton');
+        const yesButton = document.getElementById('yesButton');
+        const noButton = document.getElementById('noButton');
+        const noButton2 = document.getElementById('noButton2');
+        const confettiContainer = document.getElementById('confetti');
+        let noClickCount = 0;
+
+        // Transition to Valentine's Invitation after refresh
+        refreshButton.addEventListener('click', () => {
+            errorScreen.style.opacity = '0';
+            setTimeout(() => {
+                errorScreen.style.display = 'none';
+                invitationScreen.style.display = 'flex';
+            }, 1000);
+        });
+
+        // Handle YES button click
+        yesButton.addEventListener('click', () => {
+            const message = document.createElement('div');
+            message.classList.add('message');
+            message.innerHTML = "Al presionar SI aceptaste:<br>Abrazos ilimitados<br>Momentos inolvidables y bonitos<br>Comida deliciosa y muchos regalos<br>¡FELIZ DIA DE SAN VALENTIN! 💘";
+            invitationScreen.appendChild(message);
+            yesButton.style.display = 'none';
+            noButton.style.display = 'none';
+            noButton2.style.display = 'none';
+            // setTimeout(() => {
+            //     message.style.opacity = 0;
+            // }, 5000);
+            triggerConfetti();
+        });
+
+        // Handle NO button click
+        noButton.addEventListener('click', () => {
+            if (noClickCount === 2) {
+                noButton.innerText = '😭';
+            }
+            moveButtonRandomly(noButton);
+            changeBackgroundColor();
+            noClickCount++;
+        });
+        noButton2.addEventListener('click', () => {
+            if (noClickCount === 2) {
+                noButton2.innerText = '😭';
+            }
+            moveButtonRandomly(noButton2);
+            changeBackgroundColor();
+            noClickCount++;
+        });
+
+        // Function to move NO button randomly
+        function moveButtonRandomly(button) {
+            const maxX = window.innerWidth - button.offsetWidth;
+            const maxY = window.innerHeight - button.offsetHeight;
+            button.style.position = 'absolute';
+            button.style.left = `${Math.random() * maxX}px`;
+            button.style.top = `${Math.random() * maxY}px`;
+        }
+
+        // Function to change background color on NO button click
+        function changeBackgroundColor() {
+            const colors = ['#FF6F61', '#FFB6C1', '#F5A7B8', '#FFC0CB', '#FFD700'];
+            document.body.style.background = `linear-gradient(135deg, ${colors[Math.floor(Math.random() * colors.length)]}, #F5A7B8)`;
+        }
+
+        // Function to trigger confetti effect
+        function triggerConfetti() {
+            confettiContainer.style.display = 'block';
+            const numConfetti = 100;
+            for (let i = 0; i < numConfetti; i++) {
+                const span = document.createElement('span');
+                span.style.left = `${Math.random() * 100}%`;
+                span.style.animationDuration = `${Math.random() * 1 + 1}s`;
+                confettiContainer.appendChild(span);
+            }
+            setTimeout(() => {
+                confettiContainer.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
