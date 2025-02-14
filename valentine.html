@@ -141,6 +141,7 @@
         const noButton2 = document.getElementById('noButton2');
         const confettiContainer = document.getElementById('confetti');
         let noClickCount = 0;
+        let noClickCount2 = 0;
 
         // Transition to Valentine's Invitation after refresh
         refreshButton.addEventListener('click', () => {
@@ -155,7 +156,7 @@
         yesButton.addEventListener('click', () => {
             const message = document.createElement('div');
             message.classList.add('message');
-            message.innerHTML = "Al presionar SI aceptaste:<br>Abrazos ilimitados<br>Momentos inolvidables y bonitos<br>Comida deliciosa y muchos regalos<br>¡FELIZ DIA DE SAN VALENTIN! 💘";
+            message.innerHTML = "Gracias por presionar voluntariamente SI, tú aceptaste:<br>Abrazos ilimitados<br>Momentos inolvidables y bonitos<br>Comida deliciosa y muchos regalos<br>¡FELIZ DIA DE SAN VALENTIN! 💘";
             invitationScreen.appendChild(message);
             yesButton.style.display = 'none';
             noButton.style.display = 'none';
@@ -168,21 +169,32 @@
 
         // Handle NO button click
         noButton.addEventListener('click', () => {
-            if (noClickCount === 2) {
+            if (noClickCount === 10) {
                 noButton.innerText = '😭';
             }
             moveButtonRandomly(noButton);
             changeBackgroundColor();
             noClickCount++;
         });
+
         noButton2.addEventListener('click', () => {
-            if (noClickCount === 2) {
-                noButton2.innerText = '😭';
+            if (noClickCount2 === 3) {
+                noButton2.innerText = 'NO 🥺';
+            }
+            if (noClickCount2 === 10) {
+                noButton2.innerText = 'NO 😭';
+            }
+            if (noClickCount2 === 20) {
+                noButton2.innerText = 'NO 💔';
+            }
+            if (noClickCount2 === 30) {
+                noButton2.innerText = 'NO s😾';
             }
             moveButtonRandomly(noButton2);
             changeBackgroundColor();
-            noClickCount++;
+            noClickCount2++;
         });
+
 
         // Function to move NO button randomly
         function moveButtonRandomly(button) {
@@ -195,7 +207,7 @@
 
         // Function to change background color on NO button click
         function changeBackgroundColor() {
-            const colors = ['#FF6F61', '#FFB6C1', '#F5A7B8', '#FFC0CB', '#FFD700'];
+            const colors = ['#FF6F61', '#f39c12', '#F5A7B8', '#2ecc71', '#FFD700'];
             document.body.style.background = `linear-gradient(135deg, ${colors[Math.floor(Math.random() * colors.length)]}, #F5A7B8)`;
         }
 
